@@ -26,15 +26,14 @@ function productsDisplay (dataProducts) {
         
         const productInsert = 
         
-        `<section id="items">
-            <a href="product.html?id=${dataProducts[i]._id}"> 
+        
+            `<a href="product.html?id=${dataProducts[i]._id}"> 
                 <article>
                     <img src="${dataProducts[i].imageUrl}" alt="${dataProducts[i].altTxt}">
-                    <h3>${dataProducts[i].name}"</h3>
+                    <h3 class="productName">${dataProducts[i].name}"</h3>
                     <p>${dataProducts[i].description}</p>
                 </article>
-            </a> 
-        </section>`;
+            </a>`;
 
         productsContainer.insertAdjacentHTML("beforeend", productInsert);
 
