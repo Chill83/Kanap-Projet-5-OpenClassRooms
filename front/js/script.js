@@ -1,10 +1,10 @@
-// Variables et constantes
+// ---------------------- Variables et constantes -------------------------
 
 const productsContainer = document.querySelector('#items')
 
 
 
-//  Appel API
+// ------------------------   Appel API   -----------------------------------
 
 fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
@@ -16,7 +16,7 @@ fetch("http://localhost:3000/api/products")
 
 
 
-// Fonction affichage des produits
+// ------------------------ Fonction affichage des produits -----------------
 
 function productsDisplay (dataProducts) {
     console.log(dataProducts);
@@ -30,7 +30,7 @@ function productsDisplay (dataProducts) {
             `<a href="product.html?id=${dataProducts[i]._id}"> 
                 <article>
                     <img src="${dataProducts[i].imageUrl}" alt="${dataProducts[i].altTxt}">
-                    <h3 class="productName">${dataProducts[i].name}"</h3>
+                    <h3 class="productName">${dataProducts[i].name}</h3>
                     <p>${dataProducts[i].description}</p>
                 </article>
             </a>`;
