@@ -129,7 +129,8 @@ fetch(`http://localhost:3000/api/products/${productId}`)
                 productBasketInfos.quantity = product__quantity.value;
                 productBasketInfos.color = product__valueOption.value;
                 // console.log(productBasketInfos);
-                addBasket(productBasketInfos);               
+                addBasket(productBasketInfos);  
+                alert("Votre produit a bien été ajouté au panier");       
             }
         })
     });
