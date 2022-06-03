@@ -4,12 +4,10 @@ const basketProductSection = document.querySelector('#cart__items');
 
 
 
-
-
-
-// Fonction pour afficher les produits du LocalStorage 
+// Fonction pour afficher les produits du LocalStorage dans le panier
 
 displayBasketProducts();
+
 
 function displayBasketProducts (){
 
@@ -56,6 +54,48 @@ function displayBasketProducts (){
 
 
 
+// Fonction pour supprimer les produits du LocalStorage et du panier visuel
+
+
+
+removeBasketProducts();
+
+
+function removeBasketProducts (){
+
+    setTimeout(() => {
+        const removeBtn = document.getElementsByClassName('deleteItem');  
+        // console.log(removeBtn);
+        for ( let i = 0; i < removeBtn.length; i++){
+            removeBtn[i].addEventListener("click", function (){
+                const basketArticle = document.querySelectorAll('.cart__item');
+                const basketArticle__dataId = basketArticle[i].getAttribute('data-id');
+                const basketArticle__dataColor = basketArticle[i].getAttribute('data-color');
+                let product__toRemove = removeBtn[i].closest('.cart__item');
+                console.log(product__toRemove);
+    
+                function removeFromBasket (product){          
+                    let basket = getBasket();
+                    basket = basket.filter(p => p.id != basketArticle__dataId && p.color != basketArticle__dataColor);   
+                    saveBasket(basket);                                
+                }          
+                removeFromBasket(product__toRemove);
+    
+                product__toRemove.remove();
+    
+            })
+        }
+    }, 1000);
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -80,8 +120,6 @@ function saveBasket(basket) {
     localStorage.setItem("basket", JSON.stringify(basket));
 }
 
-
-
 function getBasket (){
     let basket = localStorage.getItem("basket");
     if(basket == null){
@@ -89,14 +127,6 @@ function getBasket (){
     } else {                                  
         return JSON.parse(basket);
     }
-}
-
-
-
-function removeFromBasket (product){          
-    let basket = getBasket();
-    basket = basket.filter(p => p.id != product.id);    
-    saveBasket(basket);                                
 }
 
 
@@ -114,8 +144,6 @@ function changeQuantity(product, quantity){
     }   
 }
 
-
-
 function getNumberProduct(){
     let basket = getBasket();
     let number = 0;                          
@@ -124,8 +152,6 @@ function getNumberProduct(){
     }
     return number;                         
 }
-
-
 
 function getTotalPrice (){
     let basket = getBasket();
