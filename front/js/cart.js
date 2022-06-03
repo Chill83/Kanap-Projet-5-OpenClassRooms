@@ -1,10 +1,11 @@
-// Définition des variables et constantes 
+//---------------------------     Définition des variables et constantes   ----------------------
 
 const basketProductSection = document.querySelector('#cart__items');
+const numberProductsContainer = document.querySelector('#totalQuantity');
 
 
 
-// Fonction pour afficher les produits du LocalStorage dans le panier
+// --------------------------    Fonction pour afficher les produits du LocalStorage dans le panier  ---------------
 
 displayBasketProducts();
 
@@ -32,7 +33,7 @@ function displayBasketProducts (){
                         <div class="cart__item__content__description">
                             <h2>${dataProduct.name}</h2>
                             <p>${getBasket()[i].color}</p>
-                            <p>${dataProduct.price} €</p>
+                            <p id="cart__item__content__description__price">${dataProduct.price} €</p>
                         </div>
                         <div class="cart__item__content__settings">
                             <div class="cart__item__content__settings__quantity">
@@ -54,7 +55,10 @@ function displayBasketProducts (){
 
 
 
-// Fonction pour supprimer les produits du LocalStorage et du panier visuel
+
+
+
+// ------------------- Fonction pour supprimer les produits du LocalStorage et du panier visuel -------------------------
 
 
 
@@ -83,6 +87,7 @@ function removeBasketProducts (){
                 removeFromBasket(product__toRemove);   
                 product__toRemove.remove();
                 quantityBasketProducts();
+                numberProductsContainer.innerHTML = getNumberProduct(); 
             })
 
             
@@ -93,7 +98,7 @@ function removeBasketProducts (){
 
 
 
-// Fonction pour modifier la quantité des produits dans le LocalStorage et le panier
+// ------------------------ Fonction pour modifier la quantité des produits dans le LocalStorage et le panier ---------------------
 
 
 quantityBasketProducts ();
@@ -116,26 +121,43 @@ function quantityBasketProducts (){
                 let foundProduct = basket.find(p => p.id == basketArticle__dataId && p.color == basketArticle__dataColor);   
                 if(foundProduct != undefined){
                     foundProduct.quantity = quantityBtn[i].value; 
-                    console.log(quantityBtn[i].value);
+                    // console.log(quantityBtn[i].value);
                                                    
                 }  
                 saveBasket(basket);                
             }
 
-
             quantityBtn[i].addEventListener("change", function(){
-                changeQuantity(product__toChangeQuantity);       
+                
+                changeQuantity(product__toChangeQuantity);               
+                numberProductsContainer.innerHTML = getNumberProduct();               
             })
+            
 
             
         }
     }, 1000);
 }
 
+// ------------------------ Affichage du nombre total de produits-----------------------
+
+
+numberProductsContainer.insertAdjacentHTML('beforeend', parseInt(getNumberProduct()));
 
 
 
-// Fonctions panier
+// --------------------------    Affichage du prix total      ----------------------
+
+
+
+
+
+
+
+
+
+
+// -------------------------- Fonctions panier ---------------------------------------------
 
 function saveBasket(basket) {
     localStorage.setItem("basket", JSON.stringify(basket));
@@ -150,18 +172,17 @@ function getBasket (){
     }
 }
 
-// --------------------------------
-
-
-
 function getNumberProduct(){
     let basket = getBasket();
     let number = 0;                          
     for (let product of basket){            
-        number += product.quantity;         
+        number += parseInt(product.quantity);         
     }
-    return number;                         
+    return number; 
 }
+
+// --------------------------------
+
 
 function getTotalPrice (){
     let basket = getBasket();
