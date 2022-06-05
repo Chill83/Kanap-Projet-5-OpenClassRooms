@@ -5,7 +5,7 @@ const numberProductsContainer = document.querySelector('#totalQuantity');
 
 
 
-// --------------------------    Fonction pour afficher les produits du LocalStorage dans le panier  ---------------
+// --------------- Fonction pour afficher les produits du LocalStorage dans le panier  ---------------
 
 displayBasketProducts();
 
@@ -33,7 +33,7 @@ function displayBasketProducts (){
                         <div class="cart__item__content__description">
                             <h2>${dataProduct.name}</h2>
                             <p>${getBasket()[i].color}</p>
-                            <p id="cart__item__content__description__price">${dataProduct.price} €</p>
+                            <p class="cart__item__content__description__price">${dataProduct.price} €</p>
                         </div>
                         <div class="cart__item__content__settings">
                             <div class="cart__item__content__settings__quantity">
@@ -58,8 +58,7 @@ function displayBasketProducts (){
 
 
 
-// ------------------- Fonction pour supprimer les produits du LocalStorage et du panier visuel -------------------------
-
+// -------------- Fonction pour supprimer les produits du LocalStorage et du panier  --------------
 
 
 removeBasketProducts();
@@ -88,6 +87,7 @@ function removeBasketProducts (){
                 product__toRemove.remove();
                 quantityBasketProducts();
                 numberProductsContainer.innerHTML = getNumberProduct(); 
+                displayTotalBasketPrice();
             })
 
             
@@ -98,7 +98,7 @@ function removeBasketProducts (){
 
 
 
-// ------------------------ Fonction pour modifier la quantité des produits dans le LocalStorage et le panier ---------------------
+// ------- Fonction pour modifier la quantité des produits dans le LocalStorage et le panier ------------
 
 
 quantityBasketProducts ();
@@ -130,13 +130,14 @@ function quantityBasketProducts (){
             quantityBtn[i].addEventListener("change", function(){
                 
                 changeQuantity(product__toChangeQuantity);               
-                numberProductsContainer.innerHTML = getNumberProduct();               
+                numberProductsContainer.innerHTML = getNumberProduct(); 
+                displayTotalBasketPrice();              
             })
             
 
             
         }
-    }, 1000);
+    }, 300);
 }
 
 // ------------------------ Affichage du nombre total de produits-----------------------
@@ -148,9 +149,43 @@ numberProductsContainer.insertAdjacentHTML('beforeend', parseInt(getNumberProduc
 
 // --------------------------    Affichage du prix total      ----------------------
 
+displayTotalBasketPrice();
 
+function displayTotalBasketPrice () {
 
+    setTimeout(() => {
+    
+        const basketProductPrice = document.querySelectorAll('.cart__item__content__description__price');
+        const quantityBtn = document.getElementsByClassName('itemQuantity');
+        let basketTotalPrice = document.querySelector('#totalPrice');
+    
+        let productPriceTab = [];
+        let productQuantityTab = [];
+        let productResultTab = [];
+       
+        for (let i = 0; i < basketProductPrice.length; i++){
+            productPriceTab.push(basketProductPrice[i].innerHTML);  
+            productQuantityTab.push(quantityBtn[i].value);
+        }
+    
+        for (let j = 0; j < productPriceTab.length; j++){
+            productResultTab.push(parseInt(productPriceTab[j]) * parseInt(productQuantityTab[j]));
+        }
+        // console.log(productResultTab);
+    
+        let sum = 0;
+        for (let k = 0; k < productResultTab.length; k++) {
+        sum += productResultTab[k];
+        }
+        // console.log(sum);
+    
+        
+        basketTotalPrice.innerHTML = sum;
+        
+    
+    }, 300);
 
+}
 
 
 
@@ -181,14 +216,4 @@ function getNumberProduct(){
     return number; 
 }
 
-// --------------------------------
 
-
-function getTotalPrice (){
-    let basket = getBasket();
-    let total = 0;                                    
-    for (let product of basket){                      
-        total += product.quantity * product.price;    
-    }
-    return total;                                     
-}

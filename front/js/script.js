@@ -1,6 +1,6 @@
 // ---------------------- Variables et constantes -------------------------
 
-const productsContainer = document.querySelector('#items')
+const productsContainer = document.querySelector('#items');
 
 
 
