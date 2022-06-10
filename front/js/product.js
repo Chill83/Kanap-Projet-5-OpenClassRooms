@@ -33,12 +33,12 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
 
 function getProduct (dataProduct) {
-    // console.log(dataProduct);
+    console.log(dataProduct);
 
 
     // Image du produit
     const product__Img__Insert = 
-    `<img src="${dataProduct.imageUrl}" alt="Photographie d'un canapé">`;
+    `<img src="${dataProduct.imageUrl}" alt="${dataProduct.altTxt}">`;
     product__Img.insertAdjacentHTML("beforeend", product__Img__Insert);
 
 

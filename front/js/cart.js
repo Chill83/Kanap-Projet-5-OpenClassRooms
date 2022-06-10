@@ -189,9 +189,6 @@ function displayTotalBasketPrice () {
 
 
 
-
-
-
 // -------------------------- Fonctions panier ---------------------------------------------
 
 function saveBasket(basket) {
@@ -216,4 +213,145 @@ function getNumberProduct(){
     return number; 
 }
 
+
+
+
+
+
+
+
+
+// --------------------------  Validation formulaire du panier --------------------------
+// ---------------------------------------------------------------------------------------
+
+// Initialisation des variables et constantes
+
+const inputFirstName = document.querySelector('#firstName');
+const inputLastName = document.querySelector('#lastName');
+const inputAddress = document.querySelector('#address');
+const inputCity = document.querySelector('#city');
+const inputEmail = document.querySelector('#email');
+const orderBtn = document.querySelector('#order');
+
+const firstNameErrorMsg = document.querySelector('#firstNameErrorMsg');
+const lastNameErrorMsg = document.querySelector('#lastNameErrorMsg');
+const addressErrorMsg = document.querySelector('#addressErrorMsg');
+const cityErrorMsg = document.querySelector('#cityErrorMsg');
+const emailErrorMsg = document.querySelector('#emailErrorMsg');
+
+
+// Initialisation des Regex
+
+const regexName = /^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/;    
+const regexAdress = /^\s*\S+(?:\s+\S+){2}/;
+const regexCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/; 
+const regexEmail = /\S+@\S+\.\S+/;
+
+
+
+// Validation des champs prénom et nom 
+
+inputFirstName.addEventListener('input', (e) => {
+    if(e.target.value.search(regexName) === 0){
+        firstNameErrorMsg.style.display = "none";
+    } 
+    if(e.target.value.search(regexName) === -1) {
+        firstNameErrorMsg.style.display = "inline";
+        firstNameErrorMsg.innerText = "Le prénom n'est pas valide";
+    }
+
+})
+
+
+inputLastName.addEventListener('input', (e) => {
+    if(e.target.value.search(regexName) === 0){
+        lastNameErrorMsg.style.display = "none";
+    } 
+    if(e.target.value.search(regexName) === -1) {
+        lastNameErrorMsg.style.display = "inline";
+        lastNameErrorMsg.innerText = "Le nom n'est pas valide";
+    }
+
+})
+
+
+// Validation des champs adresse et ville
+
+inputAddress.addEventListener('input', (e) => {
+    if(e.target.value.search(regexAdress) === 0){
+       addressErrorMsg.style.display = "none";
+    } 
+    if(e.target.value.search(regexAdress) === -1) {
+        addressErrorMsg.style.display = "inline";
+        addressErrorMsg.innerText = "L'adresse n'est pas valide";
+    }
+})
+
+
+inputCity.addEventListener('input', (e) => {
+    if(e.target.value.search(regexCity) === 0){
+       cityErrorMsg.style.display = "none";
+    } 
+    if(e.target.value.search(regexCity) === -1) {
+        cityErrorMsg.style.display = "inline";
+        cityErrorMsg.innerText = "La ville n'est pas valide";
+    }
+})
+
+
+// Validation du champ email
+
+inputEmail.addEventListener('input', (e) => {
+    if(e.target.value.search(regexEmail) === 0){
+       emailErrorMsg.style.display = "none";
+    } 
+    if(e.target.value.search(regexEmail) === -1) {
+        emailErrorMsg.style.display = "inline";
+        emailErrorMsg.innerText = "L'e-mail n'est pas valide";
+    }
+})
+
+
+
+
+
+// ---------------- Confirmation de la commande ------------------------
+// -------------------------------------------------------------------
+
+
+let contact = {
+    firstName : "",
+    lastName : "",
+    address : "",
+    city : "",
+    email : "",
+};
+
+let products = [];
+
+
+orderBtn.addEventListener('click', (e) => {
+
+    // Je récupère les informations du formulaire dans un objet "contact"
+
+    e.preventDefault();
+    contact.firstName = inputFirstName.value;
+    contact.lastName = inputLastName.value;
+    contact.address = inputAddress.value;
+    contact.city = inputCity.value;
+    contact.email = inputEmail.value;
+    console.log(contact);
+
+    // Je récupère l'id de chaque produit dans le localStorage dans l'array "products"
+    
+    getBasket();
+    // console.log(getBasket());
+    for (let itemId of getBasket()) {
+            products.push(itemId.id);
+    }
+    console.log(products);
+
+
+    
+})
 
