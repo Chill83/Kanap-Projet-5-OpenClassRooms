@@ -2,7 +2,17 @@
 
 const basketProductSection = document.querySelector('#cart__items');
 const numberProductsContainer = document.querySelector('#totalQuantity');
+const basketForm = document.querySelector('.cart__order');
 
+// --------------  Si le panier est vide, je fait disparaitre le formulaire ---------------------
+
+basketFormDisplay ();
+
+function basketFormDisplay () {
+    if (getNumberProduct() == 0){
+        basketForm.style.display = "none";
+    }
+}
 
 // -------------------------------   Fonctions panier    ----------------------------------
 
@@ -118,32 +128,29 @@ function modifyQuantityBasketProducts (){
 
     setTimeout(() => {
 
-        const quantityBtn = document.getElementsByClassName('itemQuantity');
+        quantityBtn = document.querySelectorAll('.itemQuantity');
 
-        for (let i = 0; i < quantityBtn.length; i++) {
-
-            const basketArticle = document.querySelectorAll('.cart__item');
-            const basketArticle__dataId = basketArticle[i].getAttribute('data-id');
-            const basketArticle__dataColor = basketArticle[i].getAttribute('data-color');
-            let product__toChangeQuantity = quantityBtn[i].closest('.cart__item');
-
+        quantityBtn.forEach( e => {
+            let basketArticle = e.closest('.cart__item');
+            let basketArticle__dataId = basketArticle.getAttribute('data-id');
+            let basketArticle__dataColor = basketArticle.getAttribute('data-color');
+            
             function changeQuantity(){  
                 let basket = getBasket();   
                 let foundProduct = basket.find(p => p.id == basketArticle__dataId && p.color == basketArticle__dataColor);   
                 if(foundProduct != undefined){
-                    foundProduct.quantity = quantityBtn[i].value;                                             
-                }  
+                    foundProduct.quantity = e.value;                                             
+                }
                 saveBasket(basket);                
             }
 
-            quantityBtn[i].addEventListener("change", function(){            
-                changeQuantity(product__toChangeQuantity);               
+            e.addEventListener("change", function(){            
+                changeQuantity();               
                 numberProductsContainer.innerHTML = getNumberProduct(); 
                 displayTotalBasketPrice();              
-            })
-            
-        }
-    }, 300);
+            })  
+        });
+    }, 800);
 }
 
 // ------------------------ Affichage du nombre total de produits-----------------------
@@ -335,11 +342,12 @@ function pushOrderInformations () {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(dataToSend)
-    })       
+    })
         .then(res => res.json())
         .then(data => {
             // je redirige l'utilisateur sur la page confirmation avec le numéro de commande dans l'URL
             window.location.href = `./confirmation.html?orderId=${data.orderId}`;
+            // console.log(data);
         })
         .catch(err => console.log(err));
 }
@@ -353,11 +361,10 @@ function mainOrderFunction () {
     orderBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (Object.values(inputCheck).every(value => value == true) && getBasket().length != 0) {
-            // Si tout les inputs du formulaire sont ok alors
-            storeOrderInformations();
-            setTimeout(() => {
-                pushOrderInformations();
-            }, 2000);
+            // Si tout les inputs du formulaire sont ok et que le panier n'est pas nu alors
+            storeOrderInformations();         
+            pushOrderInformations();
+            localStorage.clear();
         } else { 
             alert("Le formulaire n'est pas correctement rempli et/ou votre panier est vide");
             return;
