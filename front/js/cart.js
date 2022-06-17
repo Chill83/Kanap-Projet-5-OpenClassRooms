@@ -14,17 +14,6 @@ function basketFormDisplay () {
     }
 }
 
-// --------------- Empêcher d'entrer manuellement un nombre négatif -------------------------
-
-// quantityBtn = document.querySelectorAll('.itemQuantity');
-
-// if (quantityBtn.forEach.value < 0){
-//     alert("Le nombre d'articles ne peut pas être négatif");
-// }
-
-
-
-
 // -------------------------------   Fonctions panier    ----------------------------------
 
 // Sauvegarder panier
@@ -156,9 +145,9 @@ function modifyQuantityBasketProducts (){
             }
 
             e.addEventListener("change", function(){ 
-                if (e.value < 0){
+                if (e.value <= 0){
                     alert("Le nombre d'articles ne peut être inférieur à 0, veuillez choisir un nombre entre 1 et 100");
-                    e.value = 0;
+                    e.value = 1;
                 }           
                 changeQuantity();               
                 numberProductsContainer.innerHTML = getNumberProduct(); 

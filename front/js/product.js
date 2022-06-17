@@ -95,8 +95,9 @@ fetch(`http://localhost:3000/api/products/${productId}`)
             if (product__valueOption.value == ""){
                 alert('Veuillez choisir une couleur');
             } 
-            else if(product__quantity.value < 0){
-                alert("Veuillez choisir un nombre d'articles entre 1 et 100")
+            else if(product__quantity.value <= 0){
+                alert("Veuillez choisir un nombre d'articles entre 1 et 100");
+                product__quantity.value = 1;
             }
             else {
 
