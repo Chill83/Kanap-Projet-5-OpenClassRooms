@@ -29,7 +29,7 @@ function getBasket (){
         return JSON.parse(basket);
     }
 }
-// Recevoir nombre de produits dans le panier
+// Recevoir nombre de produits présents dans le panier
 function getNumberProduct(){
     let basket = getBasket();
     let number = 0;                          
@@ -221,13 +221,11 @@ const emailErrorMsg = document.querySelector('#emailErrorMsg');
 const allInputs = document.querySelectorAll('.cart__order__form__question input');
 const allErrorMsg = document.querySelectorAll('.cart__order__form__question p');
 
-
 // Initialisation des Regex
 const regexName = /^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/;    
 const regexAdress = /^\s*\S+(?:\s+\S+){2}/;
 const regexCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/; 
 const regexEmail = /\S+@\S+\.\S+/;
-
 
 // Je stock le résultat de mes inputs du formulaire
 let inputCheck = {
@@ -237,7 +235,6 @@ let inputCheck = {
     city: false,
     email: false
 }
-
 
 // Validation des champs prénom et nom 
 inputFirstName.addEventListener('input', (e) => {
@@ -302,7 +299,6 @@ inputEmail.addEventListener('input', (e) => {
 })
 
 
-
 // ------------------------------- Confirmation de la commande ---------------------------------------
 // --------------------------------------------------------------------------------------------------
 
@@ -357,7 +353,7 @@ function pushOrderInformations () {
 }
 
 
-// Sous certaines conditions, j'appelle mes précédentes fonctions lors du click
+// Sous certaines conditions, j'appelle mes précédentes fonctions lors du clic
 
 mainOrderFunction ();
 
@@ -365,7 +361,7 @@ function mainOrderFunction () {
     orderBtn.addEventListener('click', (e) => {
         e.preventDefault();
         if (Object.values(inputCheck).every(value => value == true) && getBasket().length != 0) {
-            // Si tout les inputs du formulaire sont ok et que le panier n'est pas nu alors
+            // Si tout les inputs du formulaire sont true et que le panier n'est pas nul alors
             storeOrderInformations();         
             pushOrderInformations();
             localStorage.clear();

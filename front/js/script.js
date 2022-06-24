@@ -1,7 +1,3 @@
-// ---------------------- Variables et constantes -------------------------
-
-const productsContainer = document.querySelector('#items');
-
 // ------------------------   Appel API   -----------------------------------
 
 fetch("http://localhost:3000/api/products")
@@ -22,7 +18,7 @@ function productsDisplay (dataProducts) {
                     <p>${dataProducts[i].description}</p>
                 </article>
             </a>`;
-
+        const productsContainer = document.querySelector('#items');
         productsContainer.insertAdjacentHTML("beforeend", productInsert);
 
     }

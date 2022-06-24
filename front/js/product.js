@@ -22,7 +22,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     .then((dataProduct) => getProduct(dataProduct));
 
 
-// ------------------ Fonction affichage des produits ---------------------
+// ------------------ Affichage des produits ---------------------
 
 function getProduct (dataProduct) {
 
@@ -43,7 +43,6 @@ function getProduct (dataProduct) {
     // Value options couleurs du produit
     for ( let colors of dataProduct.colors) {
         const product__valueOption__Insert = `<option value="${colors}">${colors}</option>`;
-        // console.log(product__valueOption__Insert);
         product__valueOption.insertAdjacentHTML("beforeend", product__valueOption__Insert);
     };
 };
@@ -83,9 +82,7 @@ function addBasket(product){
 }
 
 
-
-// ----------------  Appel API + Ajout produits au panier(quantité et couleur)  ----------------
-
+// ----------------  Appel API + Ajout produits au panier(id, quantité et couleur)  ----------------
 
 fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => response.json())
@@ -106,6 +103,7 @@ fetch(`http://localhost:3000/api/products/${productId}`)
                     color :"",
                     quantity : "",
                 };
+
                 productBasketInfos.quantity = product__quantity.value;
                 productBasketInfos.color = product__valueOption.value;
                 addBasket(productBasketInfos);  
@@ -113,4 +111,3 @@ fetch(`http://localhost:3000/api/products/${productId}`)
             }
         })
     });
-
