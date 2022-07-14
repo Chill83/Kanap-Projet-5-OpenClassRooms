@@ -1,9 +1,17 @@
+// ---------------  Appel fonction affichage de tout les produits  ---------------
+
+productsDisplayOnIndex();
+
 // ------------------------   Appel API   -----------------------------------
 
-fetch("http://localhost:3000/api/products")
+function productsDisplayOnIndex() {
+    fetch("http://localhost:3000/api/products")
     .then((response) => response.json())
     .then((dataProducts) => productsDisplay(dataProducts))
     .catch((err) => console.log("Il y a une erreur : " + err));
+}
+
+
 
 // ------------------------ Fonction affichage des produits -----------------
 

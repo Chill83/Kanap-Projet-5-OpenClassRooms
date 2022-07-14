@@ -225,7 +225,7 @@ const allErrorMsg = document.querySelectorAll('.cart__order__form__question p');
 const regexName = /^(?=.{1,40}$)[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/;    
 const regexAdress = /^\s*\S+(?:\s+\S+){2}/;
 const regexCity = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/; 
-const regexEmail = /\S+@\S+\.\S+/;
+const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 // Je stock le résultat de mes inputs du formulaire
 let inputCheck = {
@@ -236,7 +236,7 @@ let inputCheck = {
     email: false
 }
 
-// Validation des champs prénom et nom 
+// Validation du champ prénom
 inputFirstName.addEventListener('input', (e) => {
     if(e.target.value.search(regexName) === 0){
         firstNameErrorMsg.style.display = "none";
@@ -244,10 +244,12 @@ inputFirstName.addEventListener('input', (e) => {
     }
     else if(e.target.value.search(regexName) === -1) {
         firstNameErrorMsg.style.display = "inline";
-        firstNameErrorMsg.innerText = "Le prénom n'est pas valide";
+        firstNameErrorMsg.innerText = "Le prénom ne peut pas contenir de chiffres et/ou de caractères spéciaux";
         inputCheck.firstName = false;
     }
 })
+
+// Validation du champ Nom
 
 inputLastName.addEventListener('input', (e) => {
     if(e.target.value.search(regexName) === 0){
@@ -256,12 +258,12 @@ inputLastName.addEventListener('input', (e) => {
     } 
     else if(e.target.value.search(regexName) === -1) {
         lastNameErrorMsg.style.display = "inline";
-        lastNameErrorMsg.innerText = "Le nom n'est pas valide";
+        lastNameErrorMsg.innerText = "Le nom ne peut pas contenir de chiffres et/ou de caractères spéciaux";
         inputCheck.lastName = false;      
     }
 })
 
-// Validation des champs adresse et ville
+// Validation du champ Adresse
 inputAddress.addEventListener('input', (e) => {
     if(e.target.value.search(regexAdress) === 0){
        addressErrorMsg.style.display = "none"; 
@@ -269,9 +271,11 @@ inputAddress.addEventListener('input', (e) => {
     } 
     else if(e.target.value.search(regexAdress) === -1) {
         addressErrorMsg.style.display = "inline";
-        addressErrorMsg.innerText = "L'adresse n'est pas valide";       
+        addressErrorMsg.innerText = "L'adresse doit comporter une chaine de chiffres et plusieurs chaines de caractères";       
     }
 })
+
+// Validation du champ Ville
 
 inputCity.addEventListener('input', (e) => {
     if(e.target.value.search(regexCity) === 0){
@@ -280,7 +284,7 @@ inputCity.addEventListener('input', (e) => {
     } 
     else if(e.target.value.search(regexCity) === -1) {
         cityErrorMsg.style.display = "inline";
-        cityErrorMsg.innerText = "La ville n'est pas valide";    
+        cityErrorMsg.innerText = "La ville ne peut pas contenir de chiffres et/ou de caractères spéciaux";    
         inputCheck.city = false; 
     }
 })
@@ -293,7 +297,7 @@ inputEmail.addEventListener('input', (e) => {
     } 
     else if(e.target.value.search(regexEmail) === -1) {
         emailErrorMsg.style.display = "inline";
-        emailErrorMsg.innerText = "L'e-mail n'est pas valide"; 
+        emailErrorMsg.innerText = "L'e-mail doit respecter le format suivant: ------@-----.--"; 
         inputCheck.email = false;     
     }
 })

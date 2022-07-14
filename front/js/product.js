@@ -14,12 +14,20 @@ const addToCart__Btn = document.querySelector('#addToCart');
 let locationUrl = new URL(document.location).searchParams;
 let productId = locationUrl.get("id");
 
+
+// ------------------- Affichage des informations produits ------------------
+
+productInformationsDisplay();
+
+
 // --------------------- Appel API du produit -------------------------------
 
-fetch(`http://localhost:3000/api/products/${productId}`)
+function productInformationsDisplay() {
+    fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => response.json())
     .catch((err) => console.log("Il y a une erreur : " + err))
     .then((dataProduct) => getProduct(dataProduct));
+}
 
 
 // ------------------ Affichage des produits ---------------------
@@ -84,7 +92,11 @@ function addBasket(product){
 
 // ----------------  Appel API + Ajout produits au panier(id, quantité et couleur)  ----------------
 
-fetch(`http://localhost:3000/api/products/${productId}`)
+
+addProductToBasket();
+
+function addProductToBasket() {
+    fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => response.json())
     .catch((err) => console.log("Il y a une erreur : " + err))
     .then((dataProduct) => {
@@ -111,3 +123,6 @@ fetch(`http://localhost:3000/api/products/${productId}`)
             }
         })
     });
+}
+
+
