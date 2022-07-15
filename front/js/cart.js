@@ -5,9 +5,9 @@ const numberProductsContainer = document.querySelector('#totalQuantity');
 const basketForm = document.querySelector('.cart__order');
 
 // --------------  Si le panier est vide, je fait disparaitre le formulaire ---------------------
-
+// Appel fonction faire disparaitre le formulaire si le panier est vide
 basketFormDisplay ();
-
+// Fonction faire disparaitre le formulaire si le panier est vide
 function basketFormDisplay () {
     if (getNumberProduct() == 0){
         basketForm.style.display = "none";
@@ -42,8 +42,10 @@ function getNumberProduct(){
 
 // --------------- Fonction pour afficher les produits du LocalStorage dans le panier  ---------------
 
+// Appel fonction affichage des produits du localStorage sur la page Panier
 displayBasketProducts();
 
+// Fonction affichage des produits du localStorage sur la page Panier
 function displayBasketProducts (){
     getBasket();
     for (let i = 0; i < getBasket().length; i++) { 
@@ -139,8 +141,10 @@ function displayBasketProducts (){
 
 // -------------- Fonction pour supprimer les produits du LocalStorage et du panier  --------------
 
+// Appel fonction pour supprimer un produit du localStorage et de la page Panier
 removeBasketProducts();
 
+// Fonction pour supprimer un produit du localStorage et de la page Panier
 function removeBasketProducts (){
     setTimeout(() => {
         const removeBtn = document.getElementsByClassName('deleteItem');  
@@ -173,9 +177,10 @@ function removeBasketProducts (){
 
 // ------- Fonction pour modifier la quantité des produits dans le LocalStorage et le panier ------------
 
-
+//  Appel fonction pour modifier la quantité d'un produit dans le localStorage et la page Panier
 modifyQuantityBasketProducts ();
 
+// Fonction pour modifier la quantité d'un produit dans le localStorage et la page Panier
 function modifyQuantityBasketProducts (){
 
     setTimeout(() => {
@@ -211,8 +216,10 @@ function modifyQuantityBasketProducts (){
 
 // ------------------------ Affichage du nombre total de produits-----------------------
 
+// Appel fonction pour afficher le nombre total de produit sur la page Panier
 displayTotalNumberProducts ();
 
+// Fonction pour afficher le nombre total de produit sur la page Panier
 function displayTotalNumberProducts () {
     numberProductsContainer.insertAdjacentHTML('beforeend', parseInt(getNumberProduct()));
 }
@@ -220,8 +227,10 @@ function displayTotalNumberProducts () {
 
 // --------------------------    Affichage du prix total      ----------------------
 
+// Appel fonction pour afficher le prix total du panier dans la page Panier
 displayTotalBasketPrice();
 
+// Fonction pour afficher le prix total du panier dans la page Panier
 function displayTotalBasketPrice () {
     setTimeout(() => {
         const basketProductPrice = document.querySelectorAll('.cart__item__content__description__price');
@@ -302,7 +311,6 @@ inputFirstName.addEventListener('input', (e) => {
 })
 
 // Validation du champ Nom
-
 inputLastName.addEventListener('input', (e) => {
     if(e.target.value.search(regexName) === 0){
         lastNameErrorMsg.style.display = "none";
@@ -328,7 +336,6 @@ inputAddress.addEventListener('input', (e) => {
 })
 
 // Validation du champ Ville
-
 inputCity.addEventListener('input', (e) => {
     if(e.target.value.search(regexCity) === 0){
        cityErrorMsg.style.display = "none";  
@@ -354,12 +361,11 @@ inputEmail.addEventListener('input', (e) => {
     }
 })
 
-
 // ------------------------------- Confirmation de la commande ---------------------------------------
 // --------------------------------------------------------------------------------------------------
 
-
 // Je stock les informations à envoyer à l'API
+// Objet qui regroupera les données du formulaire panier
 let contact = {
     firstName : "",
     lastName : "",
@@ -367,30 +373,29 @@ let contact = {
     city : "",
     email : "",
 };
-
+// Tableau qui regroupera tout les produits du panier
 let products = [];
 
-// Je réunis les informations à envoyer à l'API
+// Je réunis les données à envoyer à l'API
 let dataToSend = {
     contact: contact,
     products: products
 }
 
-// Je récupère les infos à envoyer
+// Fonction pour récupérer les données à envoyer à l'API
 function storeOrderInformations () {
     contact.firstName = inputFirstName.value;
     contact.lastName = inputLastName.value;
     contact.address = inputAddress.value;
     contact.city = inputCity.value;
     contact.email = inputEmail.value;
-
     getBasket();
     for (let itemId of getBasket()) {
             products.push(itemId.id);
     }
 }
 
-// J'envoie les infos à l'API 
+// Fonction pour envoyer les données à l'API 
 function pushOrderInformations () {
     fetch('http://localhost:3000/api/products/order', {
         method: "POST",
@@ -403,24 +408,23 @@ function pushOrderInformations () {
         .then(data => {
             // je redirige l'utilisateur sur la page confirmation avec le numéro de commande dans l'URL
             window.location.href = `./confirmation.html?orderId=${data.orderId}`;
-            // console.log(data);
         })
         .catch(err => console.log(err));
 }
 
-
-// Sous certaines conditions, j'appelle mes précédentes fonctions lors du clic
-
+// Appel fonction pour récupérer les données et les envoyer à l'API au clic sur le bouton "Commander"
 mainOrderFunction ();
 
+// Fonction pour récupérer les données et les envoyer à l'API au clic sur le bouton "Commander"
 function mainOrderFunction () {
     orderBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        // Si tout les inputs du formulaire sont true et que le panier n'est pas nul 
         if (Object.values(inputCheck).every(value => value == true) && getBasket().length != 0) {
-            // Si tout les inputs du formulaire sont true et que le panier n'est pas nul alors
             storeOrderInformations();         
             pushOrderInformations();
-            localStorage.clear();
+            // Je vide le localStorage
+            localStorage.clear(); 
         } else { 
             alert("Le formulaire n'est pas correctement rempli et/ou votre panier est vide");
             return;

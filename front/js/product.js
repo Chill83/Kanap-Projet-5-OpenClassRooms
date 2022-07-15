@@ -1,5 +1,4 @@
 // -------------------- Initialisation des variables DOM ------------------------
-
 const product__Img = document.querySelector('.item__img');
 const product__Name = document.querySelector('#title');
 const product__Price = document.querySelector('#price');
@@ -8,20 +7,14 @@ const product__valueOption = document.querySelector('#colors');
 const product__quantity = document.querySelector('#quantity') ;
 const addToCart__Btn = document.querySelector('#addToCart');
 
-
 // -------------------- Récupération de l'id URL du produit --------------------
-
 let locationUrl = new URL(document.location).searchParams;
 let productId = locationUrl.get("id");
 
-
-// ------------------- Affichage des informations produits ------------------
-
+// Invocation fonction appel API et affichage des produits
 productInformationsDisplay();
 
-
-// --------------------- Appel API du produit -------------------------------
-
+// Fonction appel API
 function productInformationsDisplay() {
     fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => response.json())
@@ -29,9 +22,7 @@ function productInformationsDisplay() {
     .then((dataProduct) => getProduct(dataProduct));
 }
 
-
-// ------------------ Affichage des produits ---------------------
-
+// Fonction affichage des produits
 function getProduct (dataProduct) {
 
     // Insertion image du produit
@@ -97,9 +88,10 @@ function addBasket(product){
 
 // ----------------  Appel API + Ajout produits au panier(id, quantité et couleur)  ----------------
 
-
+//  Appel fonction ajouter un produit au panier
 addProductToBasket();
 
+// Fonction ajouter un produit au panier
 function addProductToBasket() {
     fetch(`http://localhost:3000/api/products/${productId}`)
     .then((response) => response.json())
@@ -129,5 +121,3 @@ function addProductToBasket() {
         })
     });
 }
-
-
