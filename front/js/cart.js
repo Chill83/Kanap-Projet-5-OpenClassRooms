@@ -46,41 +46,93 @@ displayBasketProducts();
 
 function displayBasketProducts (){
     getBasket();
-
     for (let i = 0; i < getBasket().length; i++) { 
-
         let productId = getBasket()[i].id;
-
         fetch(`http://localhost:3000/api/products/${productId}`)
             .then((response) => response.json())
             .catch((err) => console.log("Il y a une erreur : " + err))
             .then((dataProduct) => {  
-                // Création carte produit   
-                const basketArticleInsert = 
-                `<article class="cart__item" data-id="${productId}" data-color="${getBasket()[i].color}">
-                    <div class="cart__item__img">
-                        <img src="${dataProduct.imageUrl}" alt="${dataProduct.altTxt}">
-                    </div>
-                    <div class="cart__item__content">
-                        <div class="cart__item__content__description">
-                            <h2>${dataProduct.name}</h2>
-                            <p>${getBasket()[i].color}</p>
-                            <p class="cart__item__content__description__price">${dataProduct.price} €</p>
-                        </div>
-                        <div class="cart__item__content__settings">
-                            <div class="cart__item__content__settings__quantity">
-                                <p>Qté : </p>
-                                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${getBasket()[i].quantity}">
-                            </div>
-                            <div class="cart__item__content__settings__delete">
-                                <p class="deleteItem">Supprimer</p>
-                            </div>
-                        </div>
-                    </div>
-                </article>`;
-                // Affichage carte produit
-                basketProductSection.insertAdjacentHTML("beforeend", basketArticleInsert);
-            });  
+
+                // Création carte produit
+                // Création article
+                const basketArticleInsert = document.createElement('article');
+                basketArticleInsert.classList.add("cart__item");
+                basketArticleInsert.setAttribute("data-id", `${productId}`);
+                basketArticleInsert.setAttribute("data-color", `${getBasket()[i].color}`);
+                basketProductSection.appendChild(basketArticleInsert);
+                // Création 'div' pour img
+                const basketDivImgInsert = document.createElement('div');
+                basketDivImgInsert.classList.add("cart__item__img");
+                basketArticleInsert.appendChild(basketDivImgInsert);
+                // Création img 
+                const basketImgInsert = document.createElement('img');
+                basketDivImgInsert.appendChild(basketImgInsert);
+                basketImgInsert.src = dataProduct.imageUrl;
+                basketImgInsert.alt = dataProduct.altTxt;
+                // Création div 'cart item content'
+                const basketCartItemContentInsert = document.createElement('div');
+                basketCartItemContentInsert.classList.add('cart__item__content');
+                basketArticleInsert.appendChild(basketCartItemContentInsert);
+                // Création div 'cart item content description'
+                const basketCartItemContentDescriptionInsert = document.createElement('div');
+                basketCartItemContentDescriptionInsert.classList.add('cart__item__content__description');
+                basketCartItemContentInsert.appendChild(basketCartItemContentDescriptionInsert);
+
+
+                // ---- Création du contenu de la div 'cart item content description' ----
+                // Création nom produit
+                const basketProductName = document.createElement('h2');
+                basketProductName.innerText = `${dataProduct.name}`;
+                basketCartItemContentDescriptionInsert.appendChild(basketProductName);
+                // Création couleur produit
+                const basketProductColor = document.createElement('p');
+                basketProductColor.innerText = `${getBasket()[i].color}`;
+                basketCartItemContentDescriptionInsert.appendChild(basketProductColor);
+                // Création prix du produit
+                const basketProductPrice = document.createElement('p');
+                basketProductPrice.classList.add('cart__item__content__description__price');
+                basketProductPrice.innerText = `${dataProduct.price} €`;
+                basketCartItemContentDescriptionInsert.appendChild(basketProductPrice);
+                // Création div 'cart__item__content__settings'
+                const basketCartItemContentSettingsInsert = document.createElement('div');
+                basketCartItemContentSettingsInsert.classList.add('cart__item__content__settings');
+                basketCartItemContentInsert.appendChild(basketCartItemContentSettingsInsert);
+
+
+                // ----- Création contenu de la div 'cart__item__content__settings' -------
+                // Création div 'cart__item__content__settings__quantity'
+                const basketCartItemContentSettingsQuantityInsert = document.createElement('div');
+                basketCartItemContentSettingsQuantityInsert.classList.add('cart__item__content__settings__quantity');
+                basketCartItemContentSettingsInsert.appendChild(basketCartItemContentSettingsQuantityInsert);
+
+
+                // Création texte quantité
+                const basketProductQuantityText = document.createElement('p');
+                basketProductQuantityText.innerText = "Qté : ";
+                basketCartItemContentSettingsQuantityInsert.appendChild(basketProductQuantityText);
+                //  Création input quantité
+                const basketProductQuantityInput = document.createElement('input');
+                basketProductQuantityInput.classList.add('itemQuantity');
+                basketProductQuantityInput.type = "number";
+                basketProductQuantityInput.name = "itemQuantity";
+                basketProductQuantityInput.min = "1";
+                basketProductQuantityInput.max = "100";
+                basketProductQuantityInput.value = getBasket()[i].quantity;
+                basketCartItemContentSettingsQuantityInsert.appendChild(basketProductQuantityInput);
+
+
+                // Création div 'cart__item__content__settings__delete'
+                const basketCartItemContentSettingsDeleteinsert = document.createElement('div');
+                basketCartItemContentSettingsDeleteinsert.classList.add('cart__item__content__settings__delete');
+                basketCartItemContentSettingsInsert.appendChild(basketCartItemContentSettingsDeleteinsert);
+
+                // Création texte "Supprimer"
+                const basketProductDeleteButton = document.createElement('p');
+                basketProductDeleteButton.classList.add('deleteItem');
+                basketProductDeleteButton.innerText = "Supprimer";
+                basketCartItemContentSettingsDeleteinsert.appendChild(basketProductDeleteButton);
+
+            });
     }
 }
 
@@ -271,7 +323,7 @@ inputAddress.addEventListener('input', (e) => {
     } 
     else if(e.target.value.search(regexAdress) === -1) {
         addressErrorMsg.style.display = "inline";
-        addressErrorMsg.innerText = "L'adresse doit comporter une chaine de chiffres et plusieurs chaines de caractères";       
+        addressErrorMsg.innerText = "L'adresse doit comporter au moins un chiffre et au moins deux chaines de caractères";       
     }
 })
 

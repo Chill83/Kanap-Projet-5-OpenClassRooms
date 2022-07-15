@@ -34,24 +34,29 @@ function productInformationsDisplay() {
 
 function getProduct (dataProduct) {
 
-    // Image du produit
-    const product__Img__Insert = 
-    `<img src="${dataProduct.imageUrl}" alt="${dataProduct.altTxt}">`;
-    product__Img.insertAdjacentHTML("beforeend", product__Img__Insert);
+    // Insertion image du produit
+    const product__Img__Insert = document.createElement('img');
+    product__Img.appendChild(product__Img__Insert);
+    product__Img__Insert.src = dataProduct.imageUrl;
+    product__Img__Insert.alt = dataProduct.altTxt;
 
-    // Nom du produit
-    product__Name.insertAdjacentHTML("beforeend", dataProduct.name);
+    // Insertion nom du produit
+    product__Name.innerText = dataProduct.name;
 
-    // Prix du produit
-    product__Price.insertAdjacentHTML("beforeend", dataProduct.price);
+    // Insertion prix du produit
+    product__Price.innerText = dataProduct.price;
 
-    // Description du produit
-    product__Description.insertAdjacentHTML("beforeend", dataProduct.description);
+    // Insertion description du produit
+    product__Description.innerText = dataProduct.description;
 
-    // Value options couleurs du produit
+    // Boucle pour insertion options couleurs du produit
     for ( let colors of dataProduct.colors) {
-        const product__valueOption__Insert = `<option value="${colors}">${colors}</option>`;
-        product__valueOption.insertAdjacentHTML("beforeend", product__valueOption__Insert);
+        // Création options couleurs 
+        const product__valueOption__Insert = document.createElement('option');
+        product__valueOption__Insert.setAttribute("value", colors);
+        product__valueOption__Insert.innerText = colors;
+        // Insertion option couleurs
+        product__valueOption.appendChild(product__valueOption__Insert);
     };
 };
 
